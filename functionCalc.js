@@ -19,7 +19,9 @@ $(document).ready(() => {
       if (val === "." && !haveDot) {
         haveDot = true;
       } else if (val === "." && haveDot) {
-        return 0;
+        if (dis2Num.includes(".") && haveDot) {
+          return;
+        }
       }
       dis2Num += val;
       display2.innerText = dis2Num;

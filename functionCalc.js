@@ -1,6 +1,6 @@
 $(document).ready(() => {
-  const display1 = document.querySelector(".display-1");
-  const display2 = document.querySelector(".display-2");
+  const display1 = document.querySelector(".display1");
+  const display2 = document.querySelector(".display2");
   const numbers = document.querySelectorAll(".number");
   const operations = document.querySelectorAll(".operation");
   const equal = document.querySelector(".equal");
@@ -65,10 +65,16 @@ $(document).ready(() => {
       result = Number(result) - Number(dis2Num);
     } else if (lastOperation === "/") {
       result = Number(result) / Number(dis2Num);
-    } else if (lastOperation === "%") {
-      result = (Number(result) / 100) * Number(dis2Num);
-    }
+    } 
   }
+  
+  //percentage operation handling
+  $(".percentage").click(() => {
+    if (dis2Num) {
+      dis2Num = String(Number(dis2Num) / 100);
+      display2.innerText = dis2Num;
+    }
+  });
 
   // to display the result perform on equal operator.
   equal.addEventListener("click", () => {
@@ -96,4 +102,62 @@ $(document).ready(() => {
       display2.innerText = dis2Num;
     } catch (error) {}
   });
+  
+  //keyboardEvent handling
+  $(document).on("keydown", () => {
+    let key = event.key;
+    if (
+      key === "0" ||
+      key === "1" ||
+      key === "2" ||
+      key === "3" ||
+      key === "4" ||
+      key === "5" ||
+      key === "6" ||
+      key === "7" ||
+      key === "8" ||
+      key === "9" ||
+      key === "."
+    ) {
+      clickButton(key);
+    } else if (key === "+" || key === "-" || key === "/") {
+      clickOperation(key);
+    } else if (key === "*") {
+      clickOperation("x");
+    } else if (key === "Enter" || key === "=") {
+      clickEqual();
+    } else if (key === "%") {
+      clickPercentage();
+    } else if (key === "Backspace") {
+      clickEraseLastNumber();
+    } else if (key === "Escape") {
+      clickEraseAll();
+    }
+  });
+  function clickButton(key) {
+    numbers.forEach((number) => {
+      if (number.innerText === key) {
+        number.click();
+      }
+    });
+  }
+  function clickOperation(key) {
+    operations.forEach((operation) => {
+      if (operation.innerText === key) {
+        operation.click();
+      }
+    });
+  }
+  function clickEqual() {
+    equal.click();
+  }
+  function clickPercentage() {
+    $(".percentage").click();
+  }
+  function clickEraseLastNumber() {
+    clearLast.click();
+  }
+  function clickEraseAll() {
+    clearAll.click();
+  }
 });
